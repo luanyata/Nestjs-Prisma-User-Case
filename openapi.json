@@ -1,0 +1,144 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "description": "Desenvolvimento",
+      "url": "http://localhost:3332"
+    }
+  ],
+  "info": {
+    "title": "My Blog",
+    "description": "My Annotation",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Luan Lima",
+      "email": "luan@yata.dev",
+      "url": "https://github.com/luanyata"
+    }
+  },
+  "paths": {
+    "/feed": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "List all Posts",
+        "description": "Return list all posts",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "JavaScript",
+            "label": "Axios",
+            "source": "const axios = require('axios');\n\naxios.get(\n 'https://localhost:3332/feed')\n.then((response) => {\n  console.log('Response:', response);\n})\n.catch((error) => {\n  console.log('Error:', error);\n});\n"
+          }
+        ]
+      }
+    },
+    "/cars/images/{id}": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Upload images",
+        "description": "Upload images",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Car id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Identity Post",
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "description": "Title Post",
+            "type": "string"
+          },
+          "content": {
+            "description": "Content Post",
+            "type": "string"
+          },
+          "publish": {
+            "description": "Visibled post to users",
+            "type": "boolean",
+            "default": false
+          },
+          "authorId": {
+            "description": "Identity Author Post",
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
