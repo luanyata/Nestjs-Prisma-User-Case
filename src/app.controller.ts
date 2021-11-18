@@ -18,12 +18,12 @@ export class AppController {
     private readonly postService: PostService,
   ) {}
 
-  @Get('post/:id')
+  @Get('posts/:id')
   async getPostById(@Param('id') id: string): Promise<PostModel> {
     return this.postService.post({ id });
   }
 
-  @Get('feed')
+  @Get('feeds')
   async getPublishedPosts(): Promise<PostModel[]> {
     return this.postService.posts({ where: { publish: true } });
   }
@@ -42,7 +42,7 @@ export class AppController {
     });
   }
 
-  @Post('post')
+  @Post('posts')
   async createDraft(
     @Body() postData: { title: string; content?: string; authorEmail: string },
   ): Promise<PostModel> {
@@ -55,7 +55,7 @@ export class AppController {
     });
   }
 
-  @Post('user')
+  @Post('users')
   async signupUser(
     @Body() userData: { name: string; email: string },
   ): Promise<UserModel> {
@@ -70,7 +70,7 @@ export class AppController {
     });
   }
 
-  @Delete('post/:id')
+  @Delete('posts/:id')
   async deletePost(@Param('id') id: string): Promise<PostModel> {
     return this.postService.deletePost({ id });
   }
